@@ -13,8 +13,8 @@ class TweetController extends Controller
     public function index()
 {
     // 一覧画面を表示する処理→ツイートを全部取得する→取得したデータをビューのファイルに渡す
-    $tweets = Tweet::with('user')->latest()->get();  // 半角スペース
-    return view('tweets.index', compact('tweets'));  // 半角スペース
+    $tweets = Tweet::with('user')->latest()->get();  
+    return view('tweets.index', compact('tweets'));  
 }
 
     /**
@@ -47,15 +47,18 @@ class TweetController extends Controller
      */
     public function show(Tweet $tweet)
     {
-        //
+         return view('tweets.show', compact('tweet'));
+        //dd($tweet);
+        //詳細画面を表示する処理
     }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Tweet $tweet)
-    {
-        //
+    {return view('tweets.edit', compact('tweet'));
+        //dd($tweet);
+        //編集画面を表示する処理
     }
 
     /**
@@ -63,7 +66,15 @@ class TweetController extends Controller
      */
     public function update(Request $request, Tweet $tweet)
     {
-        //
+        $request->validate([
+      'tweet' => 'required|max:255',
+    ]);
+
+    $tweet->update($request->only('tweet'));
+
+    return redirect()->route('tweets.show', $tweet);
+
+        //dd($request^>all(), $tweet);
     }
 
     /**
@@ -71,6 +82,10 @@ class TweetController extends Controller
      */
     public function destroy(Tweet $tweet)
     {
+        
+    $tweet->delete();
+
+    return redirect()->route('tweets.index');
         //
     }
 }
