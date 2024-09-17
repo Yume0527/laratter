@@ -13,8 +13,9 @@ class TweetController extends Controller
     public function index()
 {
     // 一覧画面を表示する処理→ツイートを全部取得する→取得したデータをビューのファイルに渡す
-    $tweets = Tweet::with('user')->latest()->get();  
-    return view('tweets.index', compact('tweets'));  
+ $tweets = Tweet::with(['user', 'liked'])->latest()->get();
+    // dd($tweets);
+    return view('tweets.index', compact('tweets'));
 }
 
     /**
@@ -47,6 +48,7 @@ class TweetController extends Controller
      */
     public function show(Tweet $tweet)
     {
+        $tweet->load('comments');
          return view('tweets.show', compact('tweet'));
         //dd($tweet);
         //詳細画面を表示する処理
