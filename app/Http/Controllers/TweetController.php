@@ -13,7 +13,7 @@ class TweetController extends Controller
     public function index()
 {
     // 一覧画面を表示する処理→ツイートを全部取得する→取得したデータをビューのファイルに渡す
- $tweets = Tweet::with(['user', 'liked'])->latest()->get();
+ $tweets = Tweet::with(['user', 'liked'])->latest()->paginate(10);
     // dd($tweets);
     return view('tweets.index', compact('tweets'));
 }
