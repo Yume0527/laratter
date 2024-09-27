@@ -25,4 +25,10 @@ class Tweet extends Model
   {
     return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
   }
+
+  public function preserve()
+{
+    return $this->hasMany(Preserve::class);
+}
+
 }

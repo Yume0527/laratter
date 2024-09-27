@@ -20,6 +20,7 @@
             <a href="{{ route('profile.show', $tweet->user) }}">
               <p class="text-gray-600 dark:text-gray-400 text-sm">投稿者: {{ $tweet->user->name }}</p> 
             </a>
+
             <a href="{{ route('tweets.show', $tweet) }}" class="text-blue-500 hover:text-blue-700">詳細を見る</a>
             <div class="flex">
               @if ($tweet->liked->contains(auth()->id()))
@@ -28,14 +29,24 @@
                 @method('DELETE')
                 <button type="submit" class="text-red-500 hover:text-red-700">dislike {{$tweet->liked->count()}}</button>
               </form>
+              
               @else
               <form action="{{ route('tweets.like', $tweet) }}" method="POST">
                 @csrf
                 <button type="submit" class="text-blue-500 hover:text-blue-700">like {{$tweet->liked->count()}}</button>
               </form>
+              
               @endif
+
+            <form action="{{ route('tweets.preserve', $tweet) }}" method="POST" class="mt-6">
+              @csrf
+              <button type="submit" class="text-red-500 hover:text-red-700">保存</button>
+            </form>
+
             </div>
+            
           </div>
+          
           @endforeach
 
           <div class="mb-4">

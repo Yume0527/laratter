@@ -26,6 +26,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('tweets.comments', CommentController::class);
     Route::post('/follow/{user}', [FollowController::class, 'store'])->name('follow.store');
     Route::delete('/follow/{user}', [FollowController::class, 'destroy'])->name('follow.destroy');
+    Route::post('/tweets/preserve/{tweet}', [TweetController::class, 'preserve'])->name('tweets.preserve');
+
 });
 
 require __DIR__.'/auth.php';
