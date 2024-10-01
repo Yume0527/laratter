@@ -40,9 +40,9 @@
             </form>
             @endif
           </div>
-          <form action="{{ route('tweets.preserve', $tweet) }}" method="POST">
+          <form action="{{ route('tweets.preserve',['tweet' => $tweet->id]) }}" method="POST">
               @csrf
-              <button type="submit" class="text-red-500 hover:text-red-700">保存</button>
+              <button type="submit">保存</button>
             </form>
           <div class="mt-4">
             <p class="text-gray-600 dark:text-gray-400 ml-4">comment {{ $tweet->comments->count() }}</p>

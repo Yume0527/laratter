@@ -96,8 +96,10 @@
                 {{ __('Tweet検索') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('tweets.preserve')" :active="request()->routeIs('tweets.preserve')">
-                {{ __('Tweet保存') }}
-            </x-nav-link>
+                 {{ __('Tweet保存') }}
+            </x-responsive-nav-link>
+
+           
             <x-responsive-nav-link :href="route('profile.show', auth()->user())" :active="request()->routeIs('profile.show')">
                 {{ __('マイページ') }}
             </x-responsive-nav-link>

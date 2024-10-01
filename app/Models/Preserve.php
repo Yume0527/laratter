@@ -9,7 +9,10 @@ class Preserve extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'tweet_id'];
+    protected $fillable = [
+        'user_id',
+        'tweet_id',
+    ];
 
     public function user()
     {

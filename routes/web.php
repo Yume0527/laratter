@@ -5,6 +5,10 @@ use App\Http\Controllers\TweetController;
 use App\Http\Controllers\TweetLikeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\PreserveController;
+Route::post('/preserve/{tweet}', [PreserveController::class, 'togglePreserve'])->name('preserve.toggle');
+Route::post('/preserve', [PreserveController::class, 'preserveTweet'])->name('preserve.store');
+Route::post('/tweets/preserve/{tweet}', [PreserveController::class, 'togglePreserve'])->name('tweets.preserve.toggle');
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,10 +27,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('tweets', TweetController::class);
     Route::post('/tweets/{tweet}/like', [TweetLikeController::class, 'store'])->name('tweets.like');
     Route::delete('/tweets/{tweet}/like', [TweetLikeController::class, 'destroy'])->name('tweets.dislike');
+    Route::post('/tweets/preserve', [PreserveController::class, 'preserveTweet'])->name('tweets.preserve');
     Route::resource('tweets.comments', CommentController::class);
     Route::post('/follow/{user}', [FollowController::class, 'store'])->name('follow.store');
     Route::delete('/follow/{user}', [FollowController::class, 'destroy'])->name('follow.destroy');
-    Route::post('/tweets/preserve/{tweet}', [TweetController::class, 'preserve'])->name('tweets.preserve');
 
 });
 

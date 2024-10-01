@@ -11,7 +11,7 @@ class TweetController extends Controller
 {
    public function preserve(Request $request, Tweet $tweet)
    {
-    Log::info('Tweet ID: ' , $tweet->id);
+    
         $preserve = Preserve::where('user_id', auth()->id())->where('tweet_id', $tweet->id)->first();
 
         if ($preserve) {
@@ -66,6 +66,7 @@ class TweetController extends Controller
     /**
      * Display the specified resource.
      */
+    
     public function show(Tweet $tweet)
     {
         $tweet->load('comments');

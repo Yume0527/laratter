@@ -9,7 +9,10 @@ class Tweet extends Model
 {
     use HasFactory;
     
-     protected $fillable = ['tweet'];
+     protected $fillable = [
+      'use_id',
+      'tweet',
+    ];
 
   public function user()
   {
@@ -30,5 +33,16 @@ class Tweet extends Model
 {
     return $this->hasMany(Preserve::class);
 }
+
+
+    public function preservedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'preserves');
+    }
+
+    public function isPreservedBy($user)
+    {
+        return $this->preservedByUsers()->where('user_id', $user->id)->exists();
+    }
 
 }
