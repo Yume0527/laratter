@@ -46,6 +46,15 @@
                 <button type="submit" class="text-blue-500 hover:text-blue-700">like {{ $tweet->liked->count() }}</button>
               </form>
               @endif
+              <form action="{{ route('tweets.preserve.toggle', $tweet) }}" method="POST" class="ml-4">
+                @csrf
+                @if ($tweet->isPreservedBy(auth()->user()))
+                  <button type="submit" class="text-red-500 hover:text-red-700">保存解除</button>
+                @else
+                  <button type="submit" class="text-blue-500 hover:text-blue-700">保存</button>
+                @endif
+              </form>
+              
             </div>
           </div>
           @endforeach

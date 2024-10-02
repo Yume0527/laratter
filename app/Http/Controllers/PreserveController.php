@@ -12,9 +12,12 @@ class PreserveController extends Controller
 
     public function togglePreserve(Request $request, Tweet $tweet)
     {
-        Log::info('Tweet ID: ' . $tweet->id);
-
+      Log::info('Tweet ID: ' . $tweet->id);
         Log::info('Toggle Preserve method called for Tweet ID: ' . $tweet->id);
+        if (!$tweet) {
+        return abort(404, 'Tweet not found');
+    }
+    
         if (!auth()->check()) {
             return redirect()->route('login')->withErrors('ログインが必要です。');
         }

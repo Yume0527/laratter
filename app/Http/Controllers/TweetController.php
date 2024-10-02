@@ -11,7 +11,8 @@ class TweetController extends Controller
 {
    public function preserve(Request $request, Tweet $tweet)
    {
-    
+    Route::post('/preserve/{tweet}', [TweetController::class, 'preserve'])->name('preserve.toggle');
+
         $preserve = Preserve::where('user_id', auth()->id())->where('tweet_id', $tweet->id)->first();
 
         if ($preserve) {

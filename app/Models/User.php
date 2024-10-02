@@ -71,7 +71,12 @@ class User extends Authenticatable
 
   public function preservedTweets()
 {
-    return $this->belongsToMany(Tweet::class, 'preserves');
+    return $this->belongsToMany(Tweet::class, 'preserves', 'tweet_id')->withTimestamps();
 }
 
+ public function hasPreserved(Tweet $tweet)
+    {
+        return $this->preservedTweets()->where('tweet_id', $tweet->id)->exists();
+    }
+    
 }

@@ -40,10 +40,18 @@
             </form>
             @endif
           </div>
-          <form action="{{ route('tweets.preserve',['tweet' => $tweet->id]) }}" method="POST">
-              @csrf
-              <button type="submit">保存</button>
-            </form>
+          <form action="{{ route('tweets.preserve.toggle', $tweet) }}" method="POST">
+                  @csrf
+                  @if ($tweet->isPreservedBy(auth()->user()))
+                    <button type="submit" class="text-red-500 hover:text-red-700">
+                      保存解除
+                    </button>
+                  @else
+                    <button type="submit" class="text-blue-500 hover:text-blue-700">
+                      保存
+                    </button>
+                  @endif
+                </form>
           <div class="mt-4">
             <p class="text-gray-600 dark:text-gray-400 ml-4">comment {{ $tweet->comments->count() }}</p>
             <a href="{{ route('tweets.comments.create', $tweet) }}" class="text-blue-500 hover:text-blue-700 mr-2">コメントする</a>

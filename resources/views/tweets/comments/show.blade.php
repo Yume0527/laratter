@@ -38,6 +38,26 @@
           </div>
           @endif
           
+          <div class="mt-4">
+                        @if (auth()->user()->preserves->contains($tweet->id))
+                            {{-- 既に保存されている場合 --}}
+                            <form action="{{ route('preserve.toggle', ['tweet' => $tweet->id]) }}" method="POST" class="inline-block">
+                                @csrf
+                                <button type="submit" class="text-red-500 hover:text-red-700">
+                                    保存解除
+                                </button>
+                            </form>
+                        @else
+                            {{-- まだ保存されていない場合 --}}
+                            <form action="{{ route('preserve.toggle', ['tweet' => $tweet->id]) }}" method="POST" class="inline-block">
+                                @csrf
+                                <button type="submit" class="text-blue-500 hover:text-blue-700">
+                                    保存
+                                </button>
+                            </form>
+                        @endif
+                    </div>
+                    
         </div>
       </div>
     </div>

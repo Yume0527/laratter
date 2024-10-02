@@ -18,16 +18,22 @@
                 <p class="text-gray-600 dark:text-gray-400 text-sm">投稿者: {{ $tweet->user->name }}</p>
                 <a href="{{ route('tweets.show', $tweet) }}" class="text-blue-500 hover:text-blue-700">詳細を見る</a>
                 <div class="flex">
-                  <form action="{{ route('preserve.toggle', $tweet) }}" method="POST" class="save-tweet-form">
-                    @csrf
-                    <input type="hidden" name="tweet_id" value="{{ $tweet->id }}">
-                    <button type="submit" class="text-blue-500 hover:text-blue-700">保存</button>
-                    <p>{{ $tweet->id }}</p> <!-- IDを表示 -->
-                  </form>
                 </div> 
               </div>
             @endforeach
           @endif
+             Route::post('/tweets/preserve/{tweet}', [PreserveController::class, 'togglePreserve'])->name('tweets.preserve.toggle');
+                  @csrf
+                  @if ($tweet->isPreservedBy(auth()->user()))
+                    <button type="submit" class="text-red-500 hover:text-red-700">
+                      保存解除
+                    </button>
+                  @else
+                    <button type="submit" class="text-blue-500 hover:text-blue-700">
+                      保存
+                    </button>
+                  @endif
+                </form>
         </div>
       </div>
     </div>
@@ -59,7 +65,6 @@
           })
           .then(data => {
             console.log(data);
-            // 保存成功のメッセージやUIの更新を行うことができます
           })
           .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
