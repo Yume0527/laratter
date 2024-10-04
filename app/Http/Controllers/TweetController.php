@@ -9,25 +9,7 @@ use Illuminate\Http\Request;
 
 class TweetController extends Controller
 {
-   public function preserve(Request $request, Tweet $tweet)
-   {
-    Route::post('/preserve/{tweet}', [TweetController::class, 'preserve'])->name('preserve.toggle');
-
-        $preserve = Preserve::where('user_id', auth()->id())->where('tweet_id', $tweet->id)->first();
-
-        if ($preserve) {
-            // 既に保存されている場合は、削除する処理
-            $preserve->delete();
-            return back()->with('success', 'Tweetが削除されました。');
-        } else {
-            // 新しく保存する処理
-            Preserve::create([
-                'user_id' => auth()->id(),
-                'tweet_id' => $tweet->id,
-            ]);
-            return back()->with('success', 'Tweetが保存されました。');
-        }
-      }
+  
     /**
      * Display a listing of the resource.
      */

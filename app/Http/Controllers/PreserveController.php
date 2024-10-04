@@ -12,15 +12,7 @@ class PreserveController extends Controller
 
     public function togglePreserve(Request $request, Tweet $tweet)
     {
-      Log::info('Tweet ID: ' . $tweet->id);
         Log::info('Toggle Preserve method called for Tweet ID: ' . $tweet->id);
-        if (!$tweet) {
-        return abort(404, 'Tweet not found');
-    }
-    
-        if (!auth()->check()) {
-            return redirect()->route('login')->withErrors('ログインが必要です。');
-        }
 
         $preserve = Preserve::where('user_id', auth()->id())
             ->where('tweet_id', $tweet->id)
@@ -39,6 +31,14 @@ class PreserveController extends Controller
             return back()->with('success', 'Tweetが保存されました。');
         }
     }
+
+    public function savedTweets()
+{
+    $user = auth()->user();
+    $savedTweets = $user->preservedTweets()->with('user')->get();
+    //dd($savedTweets); 
+    return view('profile.saved', compact('savedTweets'));
+}
 
     public function preserveTweet(Request $request)
     {
@@ -103,9 +103,8 @@ class PreserveController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Tweet $tweet)
     {
-        $tweet = Tweet::findOrFail($id);
         return view('tweets.edit', compact('tweet'));
     }
 
@@ -127,7 +126,7 @@ class PreserveController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Tweet $tweet)
     {
         $tweet = Tweet::findOrFail($id);
         $tweet->delete();

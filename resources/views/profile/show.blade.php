@@ -30,7 +30,7 @@
             @endif
           </div>
           @endif
-
+<a href="{{ route('profile.saved') }}">保存したツイート</a>
           <!-- 🔽 フォローフォロワー数 -->
           <p>following: {{$user->follows->count()}}</p>
           <p>followers: {{$user->followers->count()}}</p>

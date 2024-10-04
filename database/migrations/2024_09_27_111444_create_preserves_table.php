@@ -9,21 +9,31 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up():void
     {
-        Schema::create('tweets', function (Blueprint $table) {
+         Schema::create('tweets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('tweet');
             $table->timestamps();
         });
+        
+        Schema::create('preserves', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('user_id')->constrained()->onDelete('cascade');
+    $table->foreignId('tweet_id')->constrained()->onDelete('cascade');
+    $table->timestamps();
+});
+
     }
 
+    
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down():void
     {
         Schema::dropIfExists('preserves');
+         Schema::dropIfExists('tweets');
     }
 };

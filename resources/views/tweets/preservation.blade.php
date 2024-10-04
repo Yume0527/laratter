@@ -17,13 +17,10 @@
                 <p class="text-gray-800 dark:text-gray-300">{{ $tweet->tweet }}</p>
                 <p class="text-gray-600 dark:text-gray-400 text-sm">投稿者: {{ $tweet->user->name }}</p>
                 <a href="{{ route('tweets.show', $tweet) }}" class="text-blue-500 hover:text-blue-700">詳細を見る</a>
-                <div class="flex">
-                </div> 
-              </div>
-            @endforeach
-          @endif
-             Route::post('/tweets/preserve/{tweet}', [PreserveController::class, 'togglePreserve'])->name('tweets.preserve.toggle');
-                  @csrf
+              @csrf
+                <form action="/tweets/preserve" method="POST">
+  
+                  <input type="hidden" name="tweet_id" value="{{ $tweetid }}">
                   @if ($tweet->isPreservedBy(auth()->user()))
                     <button type="submit" class="text-red-500 hover:text-red-700">
                       保存解除
@@ -34,6 +31,9 @@
                     </button>
                   @endif
                 </form>
+              </div>
+            @endforeach
+          @endif
         </div>
       </div>
     </div>
@@ -42,14 +42,12 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const forms = document.querySelectorAll('.save-tweet-form');
-
       forms.forEach(form => {
         form.addEventListener('submit', (e) => {
           e.preventDefault(); // フォームのデフォルト送信を防止
           const tweetId = form.querySelector('input[name="tweet_id"]').value;
-          const csrfToken = '{{ csrf_token() }}';
-
-          fetch(`/preserve/${tweetId}`, {
+          const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+          fetch(`/tweets/preserve`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
